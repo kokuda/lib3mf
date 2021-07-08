@@ -48,6 +48,7 @@ configure_file("${CMAKE_CURRENT_SOURCE_DIR}/Include/Model/COM/NMR_COMVersion.h.i
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/nuget/ios/lib3mf.iOS.nuspec.in" "${CMAKE_CURRENT_BINARY_DIR}/nuget/ios/lib3mf.iOS.nuspec")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/nuget/macos/lib3mf.macOS.nuspec.in" "${CMAKE_CURRENT_BINARY_DIR}/nuget/macos/lib3mf.macOS.nuspec")
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/nuget/windows/lib3mf.windows.nuspec.in" "${CMAKE_CURRENT_BINARY_DIR}/nuget/windows/lib3mf.windows.nuspec")
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/nuget/android/lib3mf.android.nuspec.in" "${CMAKE_CURRENT_BINARY_DIR}/nuget/android/lib3mf.android.nuspec")
 
 include(Source/CMakeLists.txt)
 
@@ -110,7 +111,7 @@ if (UNIX OR MINGW)
 	if (NOT APPLE)
 		SET_TARGET_PROPERTIES(${PROJECT_NAME}_s PROPERTIES LINK_FLAGS -s)
 	endif()
-	if(NOT IOS_PLATFORM)
+	if(NOT IOS_PLATFORM AND NOT ANDROID_PLATFORM)
 		find_library(LIBUUID_PATH uuid)
 		if(NOT LIBUUID_PATH)
 			message(FATAL_ERROR "libuuid not found")

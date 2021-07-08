@@ -40,6 +40,9 @@ NMR_UUID.cpp implements a datatype and functions to handle UUIDs
 #if defined(_WIN32) && !defined(__MINGW32__)
 #include <Objbase.h>
 #include <iomanip>
+#elif defined(ANDROID)
+#include <fstream>
+#include <sstream>
 #else
 #include <uuid/uuid.h>
 #endif
@@ -56,6 +59,10 @@ namespace NMR
 		if (StringFromCLSID(guid, &str) != S_OK)
 			throw CNMRException(NMR_ERROR_UUIDGENERATIONFAILED);
 		set(str);
+#elif defined(ANDROID)
+		std::ifstream t("/proc/sys/kernel/random/uuid");
+		std::string str((std::istreambuf_iterator<char>(t)), std::istreambuf_iterator<char>());
+		set(str.c_str());
 #else
 		uuid_t uuid;
 		uuid_generate_random(uuid);
